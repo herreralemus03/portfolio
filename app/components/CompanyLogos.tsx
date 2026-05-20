@@ -4,7 +4,8 @@ import { useState } from "react";
 
 interface Company {
   name: string;
-  domain: string;
+  logoUrl: string;           // primary logo URL
+  logoUrl2?: string;         // secondary fallback URL
   initial: string;
   color: string;
   textColor: string;
@@ -12,57 +13,156 @@ interface Company {
   period: string;
 }
 
+/* ── Logo sources verified via WebFetch ───────────────────────────
+   Davivienda  → Wikipedia Commons PNG (21 KB, confirmed ✓)
+   Cuscatlán   → Wikipedia Commons PNG (112 KB, confirmed ✓)
+   Equifax     → Wikipedia Commons SVG (confirmed ✓, #B32541 maroon)
+   Siman       → VTEX official CDN PNG
+   Freund      → freundferreteria.com official SVG
+   In2Clouds   → no public logo found → initials fallback
+   Digestyc    → no public logo found → initials fallback
+─────────────────────────────────────────────────────────────────── */
 const COMPANIES: Company[] = [
-  { name: "Banco Davivienda", domain: "davivienda.com",      initial: "D",   color: "#C8102E", textColor: "#fff", role: "Backend Dev",   period: "2025" },
-  { name: "Banco Cuscatlán",  domain: "bancocuscatlan.com",  initial: "BC",  color: "#004B87", textColor: "#fff", role: "Backend Dev",   period: "2024" },
-  { name: "Equifax",          domain: "equifax.com",         initial: "EQ",  color: "#C8102E", textColor: "#fff", role: "Full Stack Dev", period: "2021" },
-  { name: "Siman",            domain: "siman.com",           initial: "Si",  color: "#B22222", textColor: "#fff", role: "Full Stack Dev", period: "2022" },
-  { name: "Freund",           domain: "freund.com.sv",       initial: "Fr",  color: "#1A7C3C", textColor: "#fff", role: "Backend Dev",   period: "2023" },
-  { name: "In2Clouds",        domain: "in2clouds.com",       initial: "I2C", color: "#0078D4", textColor: "#fff", role: "Cloud Architect","period": "2021" },
-  { name: "Digestyc",         domain: "digestyc.gob.sv",     initial: "Dg",  color: "#1B4F8A", textColor: "#fff", role: "Full Stack Dev", period: "2021" },
+  {
+    name: "Banco Davivienda",
+    logoUrl:  "https://upload.wikimedia.org/wikipedia/commons/a/ac/Davivienda_Logo.png",
+    logoUrl2: "https://www.davivienda.com/documents/d/global/logodavivienda",
+    initial: "D", color: "#E5001C", textColor: "#fff",
+    role: "Backend Developer", period: "Mar 2025 – Dic 2025",
+  },
+  {
+    name: "Banco Cuscatlán",
+    logoUrl:  "https://upload.wikimedia.org/wikipedia/commons/3/34/Banco_Cuscatl%C3%A1n.png",
+    initial: "BC", color: "#003087", textColor: "#fff",
+    role: "Backend Developer", period: "May 2024 – Dic 2024",
+  },
+  {
+    name: "Equifax",
+    logoUrl:  "https://upload.wikimedia.org/wikipedia/commons/1/18/Equifax_Logo.svg",
+    initial: "EQ", color: "#B32541", textColor: "#fff",
+    role: "Full Stack Developer", period: "Jul 2021 – May 2022",
+  },
+  {
+    name: "Siman",
+    logoUrl:  "https://simanselector.vteximg.com.br/arquivos/logo_siman_welcome_page.png?v=637251722087630000",
+    logoUrl2: "https://logo.clearbit.com/siman.com",
+    initial: "Si", color: "#C41230", textColor: "#fff",
+    role: "Full Stack Developer", period: "May 2022 – Jul 2023",
+  },
+  {
+    name: "Freund",
+    logoUrl:  "https://www.freundferreteria.com/img/logo.svg",
+    initial: "Fr", color: "#1A7C3C", textColor: "#fff",
+    role: "Backend Developer", period: "Sep 2023 – Ene 2024",
+  },
+  {
+    name: "In2Clouds",
+    logoUrl:  "https://logo.clearbit.com/in2clouds.com",
+    initial: "I2", color: "#0078D4", textColor: "#fff",
+    role: "Cloud Architect", period: "Ago 2021 – Feb 2022",
+  },
+  {
+    name: "Digestyc",
+    logoUrl:  "https://logo.clearbit.com/digestyc.gob.sv",
+    initial: "DG", color: "#1B4F8A", textColor: "#fff",
+    role: "Full Stack Developer", period: "Mar 2021 – Jun 2021",
+  },
 ];
 
 function LogoImage({ company }: { company: Company }) {
-  const [failed, setFailed] = useState(false);
+  const [attempt, setAttempt] = useState<"primary" | "secondary" | "fallback">("primary");
 
-  if (failed) {
+  if (attempt === "fallback") {
     return (
-      <div
-        className="company-initial"
-        style={{ background: company.color, color: company.textColor }}
-      >
+      <div style={{
+        width: 64, height: 64, borderRadius: 14,
+        background: company.color, color: company.textColor,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        fontSize: 15, fontWeight: 700, letterSpacing: 0.5, flexShrink: 0,
+      }}>
         {company.initial}
       </div>
     );
   }
 
+  const src = attempt === "primary" ? company.logoUrl : (company.logoUrl2 ?? "");
+
+  const handleError = () => {
+    if (attempt === "primary" && company.logoUrl2) {
+      setAttempt("secondary");
+    } else {
+      setAttempt("fallback");
+    }
+  };
+
   return (
-    // eslint-disable-next-line @next/next/no-img-element
-    <img
-      src={`https://logo.clearbit.com/${company.domain}`}
-      alt={company.name}
-      className="company-logo-img"
-      onError={() => setFailed(true)}
-    />
+    /* White background so logos designed for light backgrounds are visible */
+    <div style={{
+      width: 80, height: 52, borderRadius: 10,
+      background: "rgba(255,255,255,0.92)",
+      display: "flex", alignItems: "center", justifyContent: "center",
+      padding: "6px 10px", overflow: "hidden", flexShrink: 0,
+      boxShadow: "0 1px 4px rgba(0,0,0,0.25)",
+    }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={src}
+        alt={company.name}
+        onError={handleError}
+        style={{ maxWidth: "100%", maxHeight: "100%", objectFit: "contain", display: "block" }}
+      />
+    </div>
   );
 }
 
 export function CompanyLogos({ sub }: { sub: string }) {
   return (
     <div>
-      <p className="md-label-md" style={{ color: "var(--md-on-surface-variant)", marginBottom: 20 }}>
+      <p className="md-label-md" style={{ color: "var(--md-on-surface-variant)", marginBottom: 24 }}>
         {sub}
       </p>
-      <div className="companies-grid">
+      <div style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(auto-fill, minmax(148px, 1fr))",
+        gap: 12,
+      }}>
         {COMPANIES.map((c) => (
-          <div key={c.name} className="company-card">
+          <div
+            key={c.name}
+            style={{
+              background: "var(--md-surface-container)",
+              border: "1px solid var(--md-outline-variant)",
+              borderRadius: 16,
+              padding: "20px 16px 16px",
+              display: "flex", flexDirection: "column", alignItems: "center", gap: 12,
+              transition: "border-color .2s, transform .2s, box-shadow .2s",
+              cursor: "default",
+            }}
+            onMouseEnter={(e) => {
+              const el = e.currentTarget as HTMLDivElement;
+              el.style.borderColor = "var(--md-outline)";
+              el.style.transform = "translateY(-3px)";
+              el.style.boxShadow = "0 6px 18px rgba(0,0,0,0.35)";
+            }}
+            onMouseLeave={(e) => {
+              const el = e.currentTarget as HTMLDivElement;
+              el.style.borderColor = "var(--md-outline-variant)";
+              el.style.transform = "translateY(0)";
+              el.style.boxShadow = "none";
+            }}
+          >
             <LogoImage company={c} />
-            <div style={{ textAlign: "center" }}>
-              <p className="md-label-lg" style={{ color: "var(--md-on-surface)", fontSize: 11, lineHeight: "16px" }}>
+
+            <div style={{ textAlign: "center", width: "100%" }}>
+              <p style={{ fontSize: 12, fontWeight: 600, color: "var(--md-on-surface)", lineHeight: "16px", marginBottom: 4 }}>
                 {c.name}
               </p>
-              <p className="md-label-sm" style={{ color: "var(--md-primary)" }}>{c.role}</p>
-              <p className="md-label-sm" style={{ color: "var(--md-outline)" }}>{c.period}</p>
+              <p style={{ fontSize: 11, fontWeight: 500, color: "var(--md-primary)", marginBottom: 2 }}>
+                {c.role}
+              </p>
+              <p style={{ fontSize: 10, color: "var(--md-outline)" }}>
+                {c.period}
+              </p>
             </div>
           </div>
         ))}
