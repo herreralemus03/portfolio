@@ -7,8 +7,8 @@ type Result = { name: string; role: string };
 
 const MOCK_RESULTS: Result[] = [
   { name: "Fernando Herrera", role: "Full Stack Developer · Java · Go · Flutter" },
-  { name: "Ana López", role: "UX/UI Designer focused on minimal interfaces" },
-  { name: "Carlos Ruiz", role: "Backend Engineer specialized in cloud systems" },
+  { name: "Ana López",        role: "UX/UI Designer focused on minimal interfaces" },
+  { name: "Carlos Ruiz",      role: "Backend Engineer specialized in cloud systems" },
 ];
 
 function SkeletonCard() {
@@ -23,7 +23,11 @@ function SkeletonCard() {
 
 function ResultCard({ name, role }: Result) {
   return (
-    <div className="sk-card sk-result">
+    <div
+      className="sk-card sk-result"
+      onMouseEnter={(e) => ((e.currentTarget as HTMLDivElement).style.transform = "translateY(-2px)")}
+      onMouseLeave={(e) => ((e.currentTarget as HTMLDivElement).style.transform = "translateY(0)")}
+    >
       <h3>{name}</h3>
       <p>{role}</p>
     </div>
@@ -31,7 +35,7 @@ function ResultCard({ name, role }: Result) {
 }
 
 export default function SkeletonSearchPage() {
-  const [query, setQuery] = useState("");
+  const [query,   setQuery]   = useState("");
   const [loading, setLoading] = useState(false);
   const [results, setResults] = useState<Result[] | null>(null);
 
@@ -39,29 +43,24 @@ export default function SkeletonSearchPage() {
     if (!query.trim()) return;
     setLoading(true);
     setResults(null);
-    setTimeout(() => {
-      setLoading(false);
-      setResults(MOCK_RESULTS);
-    }, 2500);
+    setTimeout(() => { setLoading(false); setResults(MOCK_RESULTS); }, 2500);
   }
 
   return (
     <>
       <style>{`
+        /* ── Neumorphic demo styles (scoped) ── */
         .sk-page {
-          margin: 0;
-          min-height: 100vh;
+          min-height: calc(100vh - 64px);
           background: #e6e7ee;
           font-family: "Segoe UI", sans-serif;
           display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding: 40px 20px;
+          justify-content: center;
+          align-items: flex-start;
+          padding: 40px 20px 60px;
           color: #4b4f5c;
         }
         .sk-container { width: 100%; max-width: 650px; }
-        .sk-back { color: #999; text-decoration: none; font-size: 13px; font-family: monospace; display: inline-block; margin-bottom: 24px; }
-        .sk-back:hover { color: #555; }
         .sk-title-main { font-size: 28px; font-weight: 700; margin-bottom: 25px; letter-spacing: 0.5px; }
         .sk-search-row { display: flex; gap: 14px; margin-bottom: 25px; }
         .sk-input {
@@ -79,16 +78,15 @@ export default function SkeletonSearchPage() {
           box-shadow: 8px 8px 16px #c5c7d0, -8px -8px 16px #ffffff;
           transition: transform 0.2s, box-shadow 0.2s;
         }
-        .sk-btn:hover { transform: translateY(-1px); }
+        .sk-btn:hover  { transform: translateY(-1px); }
         .sk-btn:active { box-shadow: inset 4px 4px 8px #c8cad1, inset -4px -4px 8px #ffffff; }
-        .sk-searching { margin-bottom: 20px; font-size: 14px; opacity: 0.65; padding-left: 6px; }
-        .sk-list { display: flex; flex-direction: column; gap: 18px; }
+        .sk-searching  { margin-bottom: 20px; font-size: 14px; opacity: 0.65; padding-left: 6px; }
+        .sk-list       { display: flex; flex-direction: column; gap: 18px; }
         .sk-card {
           border-radius: 24px; padding: 22px; background: #e6e7ee;
           box-shadow: 10px 10px 20px #c8cad1, -10px -10px 20px #ffffff;
           transition: transform 0.2s;
         }
-        .sk-result:hover { transform: translateY(-2px); }
         .sk-result h3 { margin: 0 0 10px; font-size: 18px; color: #444; }
         .sk-result p  { margin: 0; line-height: 1.5; opacity: 0.8; }
         .sk-bone {
@@ -98,7 +96,7 @@ export default function SkeletonSearchPage() {
         .sk-bone::after {
           content: ""; position: absolute;
           top: 0; left: -180px; width: 180px; height: 100%;
-          background: linear-gradient(90deg, transparent, rgba(255,255,255,0.7), transparent);
+          background: linear-gradient(90deg, transparent, rgba(255,255,255,.7), transparent);
           animation: sk-shimmer 1.4s infinite;
         }
         @keyframes sk-shimmer { 100% { left: 100%; } }
@@ -107,10 +105,19 @@ export default function SkeletonSearchPage() {
         .sk-short { width: 75%; }
       `}</style>
 
+      {/* MD3 Top App Bar */}
+      <header className="md-appbar">
+        <Link href="/" className="md-btn-icon" aria-label="Volver">
+          <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M10.5 19.5L3 12m0 0l7.5-7.5M3 12h18" />
+          </svg>
+        </Link>
+        <span className="md-appbar-title">Skeleton Search UI</span>
+      </header>
+
+      {/* Neumorphic demo */}
       <div className="sk-page">
         <div className="sk-container">
-          <Link href="/" className="sk-back">← volver</Link>
-
           <div className="sk-title-main">Search Users</div>
 
           <div className="sk-search-row">
@@ -127,8 +134,8 @@ export default function SkeletonSearchPage() {
           {loading && <div className="sk-searching">Searching...</div>}
 
           <div className="sk-list">
-            {loading && [0, 1, 2].map((i) => <SkeletonCard key={i} />)}
-            {results && results.map((r) => <ResultCard key={r.name} {...r} />)}
+            {loading  && [0, 1, 2].map((i) => <SkeletonCard key={i} />)}
+            {results  && results.map((r) => <ResultCard key={r.name} {...r} />)}
           </div>
         </div>
       </div>

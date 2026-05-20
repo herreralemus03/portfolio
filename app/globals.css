@@ -1,12 +1,236 @@
 @import "tailwindcss";
 
+/* ── MD3 Dark Scheme · Purple baseline ───────────────────────────── */
 :root {
-  --background: #020617;
-  --foreground: #f8fafc;
+  --md-primary:              #D0BCFF;
+  --md-on-primary:           #381E72;
+  --md-primary-container:    #4F378B;
+  --md-on-primary-container: #EADDFF;
+
+  --md-secondary:              #CCC2DC;
+  --md-secondary-container:    #4A4458;
+  --md-on-secondary-container: #E8DEF8;
+
+  --md-surface:                   #141218;
+  --md-surface-container-lowest:  #0F0D13;
+  --md-surface-container-low:     #1D1B20;
+  --md-surface-container:         #211F26;
+  --md-surface-container-high:    #2B2930;
+  --md-surface-container-highest: #36343B;
+
+  --md-on-surface:         #E6E1E5;
+  --md-on-surface-variant: #CAC4D0;
+  --md-outline:            #938F99;
+  --md-outline-variant:    #49454F;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  background: var(--md-surface);
+  color: var(--md-on-surface);
+  font-family: var(--font-geist-sans), "Roboto", Arial, sans-serif;
+}
+
+/* ── MD3 Type Scale ──────────────────────────────────────────────── */
+.md-display-sm  { font-size: 36px; line-height: 44px; font-weight: 400; letter-spacing: -0.25px; }
+.md-headline-lg { font-size: 32px; line-height: 40px; font-weight: 400; }
+.md-headline-md { font-size: 28px; line-height: 36px; font-weight: 400; }
+.md-headline-sm { font-size: 24px; line-height: 32px; font-weight: 400; }
+.md-title-lg    { font-size: 22px; line-height: 28px; font-weight: 400; }
+.md-title-md    { font-size: 16px; line-height: 24px; font-weight: 500; letter-spacing: 0.15px; }
+.md-title-sm    { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: 0.1px;  }
+.md-body-lg     { font-size: 16px; line-height: 24px; font-weight: 400; letter-spacing: 0.5px;  }
+.md-body-md     { font-size: 14px; line-height: 20px; font-weight: 400; letter-spacing: 0.25px; }
+.md-label-lg    { font-size: 14px; line-height: 20px; font-weight: 500; letter-spacing: 0.1px;  }
+.md-label-md    { font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.5px;  }
+.md-label-sm    { font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: 0.5px;  }
+
+/* ── MD3 Elevated Card ───────────────────────────────────────────── */
+.md-card {
+  background: var(--md-surface-container-low);
+  border-radius: 12px;
+  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px 1px rgba(0,0,0,.15);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s;
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+.md-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-primary);
+  opacity: 0;
+  transition: opacity .2s;
+  pointer-events: none;
+}
+.md-card:hover {
+  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
+}
+.md-card:hover::before { opacity: 0.08; }
+
+/* ── MD3 Filled Button ───────────────────────────────────────────── */
+.md-btn-filled {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 20px;
+  background: var(--md-primary);
+  color: var(--md-on-primary);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: box-shadow .2s;
+}
+.md-btn-filled:hover {
+  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
+}
+
+/* ── MD3 Outlined Button ─────────────────────────────────────────── */
+.md-btn-outlined {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 24px;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--md-primary);
+  border: 1px solid var(--md-outline);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s;
+}
+.md-btn-outlined:hover {
+  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+  border-color: var(--md-primary);
+}
+
+/* ── MD3 Text Button ─────────────────────────────────────────────── */
+.md-btn-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  height: 40px;
+  padding: 0 12px;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--md-primary);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background .2s;
+}
+.md-btn-text:hover {
+  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
+}
+
+/* ── MD3 Icon Button ─────────────────────────────────────────────── */
+.md-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 20px;
+  background: transparent;
+  color: var(--md-on-surface-variant);
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+  flex-shrink: 0;
+  transition: background .2s;
+}
+.md-btn-icon:hover {
+  background: color-mix(in srgb, var(--md-on-surface-variant) 8%, transparent);
+}
+
+/* ── MD3 Assist Chip ─────────────────────────────────────────────── */
+.md-chip {
+  display: inline-flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 16px;
+  border-radius: 8px;
+  border: 1px solid var(--md-outline-variant);
+  color: var(--md-on-surface-variant);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.1px;
+  background: transparent;
+  white-space: nowrap;
+}
+
+/* ── MD3 Outlined Text Field ─────────────────────────────────────── */
+.md-field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.md-field label {
+  font-size: 12px;
+  font-weight: 500;
+  letter-spacing: 0.4px;
+  color: var(--md-on-surface-variant);
+  padding-left: 2px;
+}
+.md-input {
+  height: 56px;
+  padding: 0 16px;
+  border-radius: 4px;
+  border: 1px solid var(--md-outline);
+  background: transparent;
+  color: var(--md-on-surface);
+  font-size: 16px;
+  letter-spacing: 0.15px;
+  outline: none;
+  transition: border-color .15s, border-width .15s;
+  width: 100%;
+  box-sizing: border-box;
+}
+.md-input::placeholder { color: var(--md-on-surface-variant); font-size: 16px; }
+.md-input:focus { border: 2px solid var(--md-primary); padding: 0 15px; }
+
+/* ── MD3 Top App Bar ─────────────────────────────────────────────── */
+.md-appbar {
+  height: 64px;
+  background: var(--md-surface-container);
+  display: flex;
+  align-items: center;
+  padding: 0 4px 0 4px;
+  gap: 4px;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.md-appbar-title {
+  font-size: 22px;
+  line-height: 28px;
+  font-weight: 400;
+  color: var(--md-on-surface);
+  flex: 1;
+}
+
+/* ── MD3 Divider ─────────────────────────────────────────────────── */
+.md-divider {
+  border: none;
+  height: 1px;
+  background: var(--md-outline-variant);
+  margin: 0;
 }
