@@ -143,44 +143,39 @@ body {
 /* ── MD3 Divider ────────────────────────────────────────────────── */
 .md-divider { border: none; height: 1px; background: var(--md-outline-variant); margin: 0; }
 
-/* ── Three-column layout ────────────────────────────────────────── */
+/* ── Three-column independently scrollable layout ───────────────── */
 .three-col {
   display: grid;
   grid-template-columns: 220px minmax(0, 1fr) 220px;
-  align-items: start;
-  min-height: calc(100vh - 64px);
+  overflow: hidden; /* children handle their own scroll */
 }
-.col-left, .col-right {
-  /* The outer div is just a grid cell; sticky lives inside */
-}
-.col-left  { border-right: 1px solid var(--md-outline-variant); }
-.col-right { border-left:  1px solid var(--md-outline-variant); }
-.col-sticky {
-  position: sticky;
-  top: 64px;
-  max-height: calc(100vh - 64px);
-  overflow-y: auto;
-}
-/* Custom scrollbar for sidebars */
-.col-sticky::-webkit-scrollbar { width: 4px; }
-.col-sticky::-webkit-scrollbar-track { background: transparent; }
-.col-sticky::-webkit-scrollbar-thumb { background: var(--md-outline-variant); border-radius: 2px; }
 
-.col-main { min-width: 0; }
+/* Each column fills the available height and scrolls on its own */
+.col-panel {
+  height: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+.col-border-right { border-right: 1px solid var(--md-outline-variant); }
+.col-border-left  { border-left:  1px solid var(--md-outline-variant); }
+
+/* Thin custom scrollbar */
+.col-panel::-webkit-scrollbar { width: 4px; }
+.col-panel::-webkit-scrollbar-track { background: transparent; }
+.col-panel::-webkit-scrollbar-thumb { background: var(--md-outline-variant); border-radius: 2px; }
 
 /* Tablet: hide right sidebar */
 @media (max-width: 1060px) {
   .three-col { grid-template-columns: 200px minmax(0, 1fr); }
-  .col-right { display: none; }
+  .col-border-left { display: none; }
 }
-/* Mobile: hide both sidebars */
+/* Mobile: hide left sidebar */
 @media (max-width: 680px) {
   .three-col { grid-template-columns: 1fr; }
-  .col-left  { display: none; }
-  .col-main  { padding: 0 !important; }
+  .col-border-right { display: none; }
 }
 
-/* Mobile demo tabs (only visible when left nav is hidden) */
+/* Mobile demo tabs (shown when left nav is hidden) */
 .demo-tabs { display: none; gap: 8px; margin-bottom: 24px; flex-wrap: wrap; }
 @media (max-width: 680px) { .demo-tabs { display: flex; } }
 .demo-tab {
