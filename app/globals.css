@@ -1,15 +1,11 @@
 @import "tailwindcss";
 
-/* ── MD3 Dark Scheme · Purple baseline ───────────────────────────── */
+/* ── MD3 Dark Scheme · Purple baseline ─────────────────────────── */
 :root {
   --md-primary:              #D0BCFF;
   --md-on-primary:           #381E72;
   --md-primary-container:    #4F378B;
   --md-on-primary-container: #EADDFF;
-
-  --md-secondary:              #CCC2DC;
-  --md-secondary-container:    #4A4458;
-  --md-on-secondary-container: #E8DEF8;
 
   --md-surface:                   #141218;
   --md-surface-container-lowest:  #0F0D13;
@@ -24,13 +20,18 @@
   --md-outline-variant:    #49454F;
 }
 
+* { box-sizing: border-box; }
+
 body {
   background: var(--md-surface);
   color: var(--md-on-surface);
   font-family: var(--font-geist-sans), "Roboto", Arial, sans-serif;
+  margin: 0;
 }
 
-/* ── MD3 Type Scale ──────────────────────────────────────────────── */
+/* ── MD3 Type Scale ─────────────────────────────────────────────── */
+.md-display-lg  { font-size: 57px; line-height: 64px; font-weight: 400; letter-spacing: -0.25px; }
+.md-display-md  { font-size: 45px; line-height: 52px; font-weight: 400; }
 .md-display-sm  { font-size: 36px; line-height: 44px; font-weight: 400; letter-spacing: -0.25px; }
 .md-headline-lg { font-size: 32px; line-height: 40px; font-weight: 400; }
 .md-headline-md { font-size: 28px; line-height: 36px; font-weight: 400; }
@@ -44,14 +45,22 @@ body {
 .md-label-md    { font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.5px;  }
 .md-label-sm    { font-size: 11px; line-height: 16px; font-weight: 500; letter-spacing: 0.5px;  }
 
-/* ── MD3 Elevated Card ───────────────────────────────────────────── */
+/* ── Gradient headline ──────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, var(--md-primary) 0%, #a78bfa 60%, var(--md-on-primary-container) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── MD3 Elevated Card ──────────────────────────────────────────── */
 .md-card {
   background: var(--md-surface-container-low);
   border-radius: 12px;
   box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 1px 3px 1px rgba(0,0,0,.15);
   position: relative;
   overflow: hidden;
-  transition: box-shadow .2s;
+  transition: box-shadow .2s, background .2s;
   text-decoration: none;
   color: inherit;
   display: block;
@@ -65,53 +74,26 @@ body {
   transition: opacity .2s;
   pointer-events: none;
 }
-.md-card:hover {
-  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
-}
+.md-card:hover { box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15); }
 .md-card:hover::before { opacity: 0.08; }
 
-/* ── MD3 Filled Button ───────────────────────────────────────────── */
+/* ── MD3 Buttons ────────────────────────────────────────────────── */
 .md-btn-filled {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 40px;
-  padding: 0 24px;
-  border-radius: 20px;
-  background: var(--md-primary);
-  color: var(--md-on-primary);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.1px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px; padding: 0 24px; border-radius: 20px;
+  background: var(--md-primary); color: var(--md-on-primary);
+  font-size: 14px; font-weight: 500; letter-spacing: 0.1px;
+  border: none; cursor: pointer; text-decoration: none; white-space: nowrap;
   transition: box-shadow .2s;
 }
-.md-btn-filled:hover {
-  box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15);
-}
+.md-btn-filled:hover { box-shadow: 0 1px 2px rgba(0,0,0,.3), 0 2px 6px 2px rgba(0,0,0,.15); }
 
-/* ── MD3 Outlined Button ─────────────────────────────────────────── */
 .md-btn-outlined {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  height: 40px;
-  padding: 0 24px;
-  border-radius: 20px;
-  background: transparent;
-  color: var(--md-primary);
-  border: 1px solid var(--md-outline);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.1px;
-  cursor: pointer;
-  text-decoration: none;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  height: 40px; padding: 0 24px; border-radius: 20px;
+  background: transparent; color: var(--md-primary); border: 1px solid var(--md-outline);
+  font-size: 14px; font-weight: 500; letter-spacing: 0.1px;
+  cursor: pointer; text-decoration: none; white-space: nowrap;
   transition: background .2s, border-color .2s;
 }
 .md-btn-outlined:hover {
@@ -119,170 +101,152 @@ body {
   border-color: var(--md-primary);
 }
 
-/* ── MD3 Text Button ─────────────────────────────────────────────── */
 .md-btn-text {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  height: 40px;
-  padding: 0 12px;
-  border-radius: 20px;
-  background: transparent;
-  color: var(--md-primary);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.1px;
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
+  display: inline-flex; align-items: center; gap: 4px;
+  height: 40px; padding: 0 12px; border-radius: 20px;
+  background: transparent; color: var(--md-primary);
+  font-size: 14px; font-weight: 500; letter-spacing: 0.1px;
+  border: none; cursor: pointer; text-decoration: none;
   transition: background .2s;
 }
-.md-btn-text:hover {
-  background: color-mix(in srgb, var(--md-primary) 8%, transparent);
-}
+.md-btn-text:hover { background: color-mix(in srgb, var(--md-primary) 8%, transparent); }
 
-/* ── MD3 Icon Button ─────────────────────────────────────────────── */
 .md-btn-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  background: transparent;
-  color: var(--md-on-surface-variant);
-  border: none;
-  cursor: pointer;
-  text-decoration: none;
-  flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  width: 40px; height: 40px; border-radius: 20px;
+  background: transparent; color: var(--md-on-surface-variant);
+  border: none; cursor: pointer; text-decoration: none; flex-shrink: 0;
   transition: background .2s;
 }
-.md-btn-icon:hover {
-  background: color-mix(in srgb, var(--md-on-surface-variant) 8%, transparent);
-}
+.md-btn-icon:hover { background: color-mix(in srgb, var(--md-on-surface-variant) 8%, transparent); }
 
-/* ── MD3 Assist Chip ─────────────────────────────────────────────── */
+/* ── MD3 Chip ───────────────────────────────────────────────────── */
 .md-chip {
-  display: inline-flex;
-  align-items: center;
-  height: 32px;
-  padding: 0 16px;
-  border-radius: 8px;
-  border: 1px solid var(--md-outline-variant);
-  color: var(--md-on-surface-variant);
-  font-size: 14px;
-  font-weight: 500;
-  letter-spacing: 0.1px;
-  background: transparent;
-  white-space: nowrap;
+  display: inline-flex; align-items: center; height: 32px; padding: 0 16px;
+  border-radius: 8px; border: 1px solid var(--md-outline-variant);
+  color: var(--md-on-surface-variant); font-size: 14px; font-weight: 500;
+  letter-spacing: 0.1px; background: transparent; white-space: nowrap;
 }
 
-/* ── MD3 Outlined Text Field ─────────────────────────────────────── */
-.md-field {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-.md-field label {
-  font-size: 12px;
-  font-weight: 500;
-  letter-spacing: 0.4px;
-  color: var(--md-on-surface-variant);
-  padding-left: 2px;
-}
+/* ── MD3 Text Field ─────────────────────────────────────────────── */
+.md-field { display: flex; flex-direction: column; gap: 4px; }
+.md-field label { font-size: 12px; font-weight: 500; letter-spacing: 0.4px; color: var(--md-on-surface-variant); padding-left: 2px; }
 .md-input {
-  height: 56px;
-  padding: 0 16px;
-  border-radius: 4px;
-  border: 1px solid var(--md-outline);
-  background: transparent;
-  color: var(--md-on-surface);
-  font-size: 16px;
-  letter-spacing: 0.15px;
-  outline: none;
-  transition: border-color .15s, border-width .15s;
-  width: 100%;
-  box-sizing: border-box;
+  height: 56px; padding: 0 16px; border-radius: 4px;
+  border: 1px solid var(--md-outline); background: transparent;
+  color: var(--md-on-surface); font-size: 16px; letter-spacing: 0.15px;
+  outline: none; transition: border .15s; width: 100%;
 }
-.md-input::placeholder { color: var(--md-on-surface-variant); font-size: 16px; }
+.md-input::placeholder { color: var(--md-on-surface-variant); }
 .md-input:focus { border: 2px solid var(--md-primary); padding: 0 15px; }
 
-/* ── MD3 Top App Bar ─────────────────────────────────────────────── */
-.md-appbar {
-  height: 64px;
-  background: var(--md-surface-container);
-  display: flex;
-  align-items: center;
-  padding: 0 4px 0 4px;
-  gap: 4px;
-  position: sticky;
-  top: 0;
-  z-index: 10;
-}
-.md-appbar-title {
-  font-size: 22px;
-  line-height: 28px;
-  font-weight: 400;
-  color: var(--md-on-surface);
-  flex: 1;
-}
+/* ── MD3 Divider ────────────────────────────────────────────────── */
+.md-divider { border: none; height: 1px; background: var(--md-outline-variant); margin: 0; }
 
-/* ── MD3 Divider ─────────────────────────────────────────────────── */
-.md-divider {
-  border: none;
-  height: 1px;
-  background: var(--md-outline-variant);
-  margin: 0;
-}
-
-/* ── MD3 Full-screen Dialog (Demo Modal) ─────────────────────────── */
-.md-backdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.6);
-  z-index: 50;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 16px;
-  animation: md-fade .2s ease;
-}
-.md-modal {
-  background: var(--md-surface-container);
-  border-radius: 28px;
-  width: min(1000px, 100%);
-  max-height: 90vh;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-  animation: md-slide-up .25s ease;
-  box-shadow: 0 8px 12px 6px rgba(0,0,0,.15), 0 4px 4px rgba(0,0,0,.3);
-}
-.md-modal-header {
+/* ── AppBar ─────────────────────────────────────────────────────── */
+.appbar {
   height: 64px;
-  display: flex;
-  align-items: center;
-  padding: 0 8px 0 20px;
-  flex-shrink: 0;
+  background: color-mix(in srgb, var(--md-surface-container) 85%, transparent);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--md-outline-variant);
-  gap: 8px;
+  display: flex; align-items: center; padding: 0 20px; gap: 8px;
+  position: sticky; top: 0; z-index: 40;
 }
-.md-modal-title {
-  font-size: 18px;
-  font-weight: 500;
-  color: var(--md-on-surface);
-  flex: 1;
-  letter-spacing: 0.15px;
+.appbar-brand {
+  font-size: 20px; font-weight: 700; letter-spacing: 0.5px;
+  color: var(--md-primary); text-decoration: none; margin-right: auto;
 }
-.md-modal-body {
-  overflow-y: auto;
-  flex: 1;
-  padding: 32px 24px 40px;
+.appbar-nav {
+  display: flex; align-items: center; gap: 4px;
 }
-@keyframes md-fade     { from { opacity: 0 } to { opacity: 1 } }
-@keyframes md-slide-up { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: translateY(0) } }
+@media (max-width: 600px) { .appbar-nav { display: none; } }
 
-/* ── Dark Neumorphism (SkeletonSearch adapted) ───────────────────── */
+/* ── Contact Drawer ─────────────────────────────────────────────── */
+.drawer-backdrop {
+  position: fixed; inset: 0; background: rgba(0,0,0,.5); z-index: 50;
+  animation: fade-in .2s ease;
+}
+.drawer {
+  position: fixed; top: 0; right: 0; bottom: 0; width: min(360px, 100vw);
+  background: var(--md-surface-container);
+  box-shadow: -4px 0 24px rgba(0,0,0,.4);
+  display: flex; flex-direction: column;
+  animation: slide-in-right .25s ease;
+  z-index: 51;
+}
+.drawer-header {
+  height: 64px; display: flex; align-items: center; padding: 0 8px 0 20px;
+  border-bottom: 1px solid var(--md-outline-variant); flex-shrink: 0;
+}
+.drawer-body { padding: 24px; flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: 20px; }
+
+/* ── Company Logo Grid ──────────────────────────────────────────── */
+.companies-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.company-card {
+  background: var(--md-surface-container);
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 12px;
+  padding: 16px 12px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+  cursor: default;
+}
+.company-card:hover {
+  border-color: var(--md-outline);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,.3);
+}
+.company-logo-img { width: 48px; height: 48px; object-fit: contain; border-radius: 8px; }
+.company-initial {
+  width: 48px; height: 48px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px; font-weight: 700; letter-spacing: 0.5px;
+}
+
+/* ── Sidebar Demos ──────────────────────────────────────────────── */
+.sidebar-demos {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  border: 1px solid var(--md-outline-variant);
+  border-radius: 16px;
+  overflow: hidden;
+  min-height: 480px;
+  background: var(--md-surface-container-lowest);
+}
+.sidebar-list {
+  border-right: 1px solid var(--md-outline-variant);
+  overflow-y: auto;
+  background: var(--md-surface-container-lowest);
+}
+.sidebar-item {
+  padding: 16px 20px; cursor: pointer;
+  border-left: 3px solid transparent;
+  transition: background .15s, border-color .15s;
+  border-bottom: 1px solid var(--md-outline-variant);
+}
+.sidebar-item:last-child { border-bottom: none; }
+.sidebar-item:hover { background: color-mix(in srgb, var(--md-primary) 6%, transparent); }
+.sidebar-item.active {
+  border-left-color: var(--md-primary);
+  background: color-mix(in srgb, var(--md-primary) 10%, transparent);
+}
+.sidebar-content { padding: 32px; overflow-y: auto; background: var(--md-surface); }
+
+@media (max-width: 720px) {
+  .sidebar-demos { grid-template-columns: 1fr; min-height: auto; }
+  .sidebar-list { border-right: none; border-bottom: 1px solid var(--md-outline-variant); display: flex; overflow-x: auto; }
+  .sidebar-item { border-left: none; border-bottom: 3px solid transparent; padding: 12px 16px; flex-shrink: 0; border-right: 1px solid var(--md-outline-variant); }
+  .sidebar-item:last-child { border-right: none; }
+  .sidebar-item.active { border-left-color: transparent; border-bottom-color: var(--md-primary); }
+  .sidebar-content { padding: 20px; }
+}
+
+/* ── Dark Neumorphism ───────────────────────────────────────────── */
 .neu-surface {
   background: var(--md-surface-container-low);
   border-radius: 16px;
@@ -293,17 +257,18 @@ body {
   box-shadow: inset 4px 4px 10px #0f0d13, inset -4px -4px 10px #2b2930;
 }
 .neu-bone {
-  position: relative;
-  overflow: hidden;
-  background: var(--md-surface-container-high);
-  border-radius: 8px;
+  position: relative; overflow: hidden;
+  background: var(--md-surface-container-high); border-radius: 8px;
 }
 .neu-bone::after {
-  content: "";
-  position: absolute;
-  top: 0; left: -180px;
-  width: 180px; height: 100%;
+  content: ""; position: absolute; top: 0; left: -180px; width: 180px; height: 100%;
   background: linear-gradient(90deg, transparent, rgba(208,188,255,.12), transparent);
   animation: neu-shimmer 1.4s infinite;
 }
 @keyframes neu-shimmer { 100% { left: 100%; } }
+
+/* ── Animations ─────────────────────────────────────────────────── */
+@keyframes fade-in     { from { opacity: 0 } to { opacity: 1 } }
+@keyframes slide-in-right { from { transform: translateX(100%) } to { transform: translateX(0) } }
+@keyframes fade-up { from { opacity: 0; transform: translateY(16px) } to { opacity: 1; transform: translateY(0) } }
+.animate-fade-up { animation: fade-up .5s ease both; }
