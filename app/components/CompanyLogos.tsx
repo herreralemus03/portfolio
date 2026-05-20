@@ -57,15 +57,9 @@ const COMPANIES: Company[] = [
   },
   {
     name: "In2Clouds",
-    logoUrl:  "https://logo.clearbit.com/in2clouds.com",
+    logoUrl: "https://media.licdn.com/dms/image/v2/C4E0BAQHZA94kpZurug/company-logo_200_200/company-logo_200_200/0/1630638388762/into_clouds_consulting_logo?e=2147483647&v=beta&t=BcFnZ76YCP6sOmUcdWBv9UuhUtUhEbYAk1JNa0kUHkQ",
     initial: "I2", color: "#0078D4", textColor: "#fff",
     role: "Cloud Architect", period: "Ago 2021 – Feb 2022",
-  },
-  {
-    name: "Digestyc",
-    logoUrl:  "https://logo.clearbit.com/digestyc.gob.sv",
-    initial: "DG", color: "#1B4F8A", textColor: "#fff",
-    role: "Full Stack Developer", period: "Mar 2021 – Jun 2021",
   },
 ];
 
