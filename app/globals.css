@@ -234,3 +234,76 @@ body {
   background: var(--md-outline-variant);
   margin: 0;
 }
+
+/* ── MD3 Full-screen Dialog (Demo Modal) ─────────────────────────── */
+.md-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: md-fade .2s ease;
+}
+.md-modal {
+  background: var(--md-surface-container);
+  border-radius: 28px;
+  width: min(1000px, 100%);
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: md-slide-up .25s ease;
+  box-shadow: 0 8px 12px 6px rgba(0,0,0,.15), 0 4px 4px rgba(0,0,0,.3);
+}
+.md-modal-header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  padding: 0 8px 0 20px;
+  flex-shrink: 0;
+  border-bottom: 1px solid var(--md-outline-variant);
+  gap: 8px;
+}
+.md-modal-title {
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--md-on-surface);
+  flex: 1;
+  letter-spacing: 0.15px;
+}
+.md-modal-body {
+  overflow-y: auto;
+  flex: 1;
+  padding: 32px 24px 40px;
+}
+@keyframes md-fade     { from { opacity: 0 } to { opacity: 1 } }
+@keyframes md-slide-up { from { opacity: 0; transform: translateY(24px) } to { opacity: 1; transform: translateY(0) } }
+
+/* ── Dark Neumorphism (SkeletonSearch adapted) ───────────────────── */
+.neu-surface {
+  background: var(--md-surface-container-low);
+  border-radius: 16px;
+  box-shadow: 6px 6px 14px #0f0d13, -6px -6px 14px #2b2930;
+}
+.neu-surface-inset {
+  background: var(--md-surface-container-low);
+  box-shadow: inset 4px 4px 10px #0f0d13, inset -4px -4px 10px #2b2930;
+}
+.neu-bone {
+  position: relative;
+  overflow: hidden;
+  background: var(--md-surface-container-high);
+  border-radius: 8px;
+}
+.neu-bone::after {
+  content: "";
+  position: absolute;
+  top: 0; left: -180px;
+  width: 180px; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(208,188,255,.12), transparent);
+  animation: neu-shimmer 1.4s infinite;
+}
+@keyframes neu-shimmer { 100% { left: 100%; } }

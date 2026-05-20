@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { getDictionary } from "@/lib/i18n";
+import { DemoSection } from "@/app/components/DemoSection";
 
 export async function generateMetadata({ params }: { params: Promise<{ lang: string }> }) {
   const { lang } = await params;
@@ -90,34 +91,7 @@ export default async function Home({ params }: { params: Promise<{ lang: string 
           <p className="md-label-md" style={{ color: "var(--md-on-surface-variant)", textTransform: "uppercase", marginBottom: 16 }}>
             {t.sections.demos}
           </p>
-          <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
-            {t.demos.map((demo) => (
-              <Link key={demo.slug} href={`/${lang}/demos/${demo.slug}/`} className="md-card">
-                <div style={{ padding: "20px 20px 12px" }}>
-                  <h3 className="md-title-md" style={{ color: "var(--md-on-surface)", marginBottom: 8 }}>
-                    {demo.title}
-                  </h3>
-                  <p className="md-body-md" style={{ color: "var(--md-on-surface-variant)", marginBottom: 16 }}>
-                    {demo.description}
-                  </p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-                    {demo.tags.map((tag) => (
-                      <span key={tag} className="md-chip" style={{ height: 28, fontSize: 12, padding: "0 12px" }}>{tag}</span>
-                    ))}
-                  </div>
-                </div>
-                <hr className="md-divider" />
-                <div style={{ padding: "4px 8px" }}>
-                  <span className="md-btn-text" style={{ pointerEvents: "none" }}>
-                    {t.viewDemo}
-                    <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"/>
-                    </svg>
-                  </span>
-                </div>
-              </Link>
-            ))}
-          </div>
+          <DemoSection demos={t.demos} lang={lang} />
         </section>
 
         <hr className="md-divider" style={{ marginBottom: 48 }} />
