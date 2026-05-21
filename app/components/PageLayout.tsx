@@ -2,24 +2,16 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import Link from "next/link";
-import { LeftNav }          from "./LeftNav";
-import { RightStack }       from "./RightStack";
-import { CompanyLogos }     from "./CompanyLogos";
-import { DebitCardDemo }    from "./demos/DebitCard";
-import { SkeletonSearchDemo } from "./demos/SkeletonSearch";
+import { LeftNav }       from "./LeftNav";
+import { RightStack }    from "./RightStack";
+import { CompanyLogos }  from "./CompanyLogos";
+import { ToolCatalog }   from "./ToolCatalog";
 import type { Dict } from "@/lib/i18n";
-
-/* ── Demo registry ──────────────────────────────────────────────── */
-const DEMOS: Record<string, (lang: string) => React.ReactNode> = {
-  "debit-card":      (lang) => <DebitCardDemo lang={lang} />,
-  "skeleton-search": ()     => <SkeletonSearchDemo />,
-};
 
 export function PageLayout({ lang, t }: { lang: string; t: Dict }) {
   /* ── State ──────────────────────────────────────────────────── */
   const [appbarVisible, setAppbarVisible] = useState(true);
   const [contactOpen,   setContactOpen]   = useState(false);
-  const [activeDemo,    setActiveDemo]    = useState(t.demos[0]?.slug ?? "");
 
   const lastScrollTop  = useRef(0);
   const mainRef        = useRef<HTMLDivElement>(null);
@@ -52,11 +44,9 @@ export function PageLayout({ lang, t }: { lang: string; t: Dict }) {
   const navSections = [
     { id: "hero",       label: "Overview" },
     { id: "experience", label: t.sections.clients },
-    { id: "showcase",   label: t.sections.showcase,
-      demos: t.demos.map((d) => ({ slug: d.slug, title: d.title })) },
+    { id: "showcase",   label: t.sections.showcase },
   ];
 
-  const activeD = t.demos.find((d) => d.slug === activeDemo);
   const { name, title: devTitle, contact, profile } = t.about;
 
   return (
@@ -108,10 +98,8 @@ export function PageLayout({ lang, t }: { lang: string; t: Dict }) {
             <LeftNav
               brand={t.brand}
               sections={navSections}
-              activeDemo={activeDemo}
-              onDemoSelect={(slug) => {
-                setActiveDemo(slug);
-                /* scroll main to showcase */
+              activeDemo=""
+              onDemoSelect={() => {
                 const showcase = mainRef.current?.querySelector("#showcase") as HTMLElement;
                 if (showcase && mainRef.current) mainRef.current.scrollTo({ top: showcase.offsetTop, behavior: "smooth" });
               }}
@@ -166,40 +154,20 @@ export function PageLayout({ lang, t }: { lang: string; t: Dict }) {
               <CompanyLogos sub={t.sections.clientsSub} />
             </section>
 
-            {/* Showcase */}
-            <section id="showcase" style={{ padding: "64px 40px 80px" }}>
-              <div className="md-divider" style={{ marginBottom: 48 }} />
-              <p className="md-label-md" style={{ color: "var(--md-on-surface-variant)", textTransform: "uppercase", marginBottom: 4 }}>
-                {t.sections.showcase}
-              </p>
-              <p className="md-body-md" style={{ color: "var(--md-on-surface-variant)", marginBottom: 32 }}>
-                {t.sections.showcaseSub}
-              </p>
-
-              {/* Mobile demo tabs */}
-              <div className="demo-tabs">
-                {t.demos.map((demo) => (
-                  <button key={demo.slug} onClick={() => setActiveDemo(demo.slug)}
-                    className={`demo-tab${activeDemo === demo.slug ? " demo-tab-active" : ""}`}>
-                    {demo.title}
-                  </button>
-                ))}
+            {/* Tool Catalog */}
+            <section id="showcase" style={{ display: "flex", flexDirection: "column", minHeight: "80vh" }}>
+              <div style={{ padding: "32px 40px 0" }}>
+                <div className="md-divider" style={{ marginBottom: 24 }} />
+                <p className="md-label-md" style={{ color: "var(--md-on-surface-variant)", textTransform: "uppercase", marginBottom: 4 }}>
+                  {t.sections.showcase}
+                </p>
+                <p className="md-body-md" style={{ color: "var(--md-on-surface-variant)", marginBottom: 0 }}>
+                  {t.sections.showcaseSub}
+                </p>
               </div>
-
-              {activeD && (
-                <div>
-                  <h2 className="md-headline-sm" style={{ color: "var(--md-on-surface)", marginBottom: 6 }}>{activeD.title}</h2>
-                  <p className="md-body-md" style={{ color: "var(--md-on-surface-variant)", marginBottom: 12 }}>{activeD.description}</p>
-                  <div style={{ display: "flex", flexWrap: "wrap", gap: 6, marginBottom: 28 }}>
-                    {activeD.tags.map((tag) => (
-                      <span key={tag} className="md-chip" style={{ height: 26, fontSize: 11, padding: "0 10px" }}>{tag}</span>
-                    ))}
-                  </div>
-                  <div style={{ background: "var(--md-surface-container-lowest)", borderRadius: 16, padding: 24, border: "1px solid var(--md-outline-variant)" }}>
-                    {DEMOS[activeDemo]?.(lang) ?? null}
-                  </div>
-                </div>
-              )}
+              <div style={{ flex: 1, marginTop: 20, borderTop: "1px solid var(--md-outline-variant)" }}>
+                <ToolCatalog lang={lang} />
+              </div>
             </section>
 
             <footer style={{ padding: "28px 40px", borderTop: "1px solid var(--md-outline-variant)", textAlign: "center" }}>

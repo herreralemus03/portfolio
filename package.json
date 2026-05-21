@@ -10,16 +10,30 @@
     "deploy": "npm run build && gh-pages -d out --dotfiles"
   },
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cronstrue": "^3.14.0",
+    "diff": "^9.0.0",
     "html2canvas": "^1.4.1",
+    "js-yaml": "^4.1.1",
+    "marked": "^18.0.4",
+    "md5": "^2.3.0",
     "next": "16.2.6",
+    "qrcode": "^1.5.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "ua-parser-js": "^2.0.9"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@types/bcryptjs": "^2.4.6",
+    "@types/diff": "^7.0.2",
+    "@types/js-yaml": "^4.0.9",
+    "@types/md5": "^2.3.6",
     "@types/node": "^20",
+    "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/ua-parser-js": "^0.7.39",
     "eslint": "^9",
     "eslint-config-next": "16.2.6",
     "gh-pages": "^6.3.0",
